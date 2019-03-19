@@ -460,7 +460,7 @@ limitations under the License.
                         id="autocomplete_list">
                 <div class="list_wrap">
                   <p class="f12 c3 GothamSSm4r line1 mb1 oln"
-                     on="tap:AMP.setState({booking_state:{searchValue: '{{description}}', queryPar: ''}})"
+                     on="tap:AMP.setState({booking_state:{searchValue: '{{description}}', queryPar: ''}, searchValue: { description: '{{description}}', place_id: '{{place_id}}' }})"
                      role="button"
                      tabindex="0">{{description}}</p>
                 </div>
@@ -877,10 +877,22 @@ limitations under the License.
             </div>
           </div>
         </amp-lightbox>
+        <amp-state id="booking_state2"
+                   [src]="'https://www.wyndhamhotels.com/WHGServices/LocationServices/geocode?place_id=' + searchValue.place_id + '&bypassCache=true'">
+        </amp-state>
+        <amp-bind-macro id="replaceSpace"
+                        arguments="str"
+                        expression="str.toLowerCase().split(' ').join('-')"></amp-bind-macro>
         <div class="form-group pt4">
           <button class="btn btn-one tcap cf GothamSSm7r f12">
             <a href="https://www.wyndhamhotels.com/wyndham-garden/lake-buena-vista-florida/wyndham-garden-lake-buena-vista-downtown-disney-resort-area/rooms-rates?brand_id=WY&brand_tier=gn&checkin_date=11/20/2018&checkout_date=11/21/2018&useWRPoints=false&children=0&adults=1&rooms=1&radius=25&brand_code=BH,DI,RA,BU,HJ,KG,MT,SE,TL,WG,WY,WT,WP,VO,DX,TM,CE,AA&PriceFilter=0-2147483647&latitude=28.3936186&longitude=-81.53868419999998"
-               [href]="'https://www.wyndhamhotels.com/wyndham-garden/lake-buena-vista-florida/wyndham-garden-lake-buena-vista-downtown-disney-resort-area/rooms-rates?brand_id=WY&brand_tier=gn&checkin_date='+ booking_state.startDate.date +'&checkout_date=' + booking_state.endDate.date + '&useWRPoints=' + booking_state.useWRPoints + booking_state.ratePlan +'&children='+ booking_state.child +'&adults='+ booking_state.Adults +'&rooms='+ booking_state.room +'&radius=25&brand_code=BH,DI,RA,BU,HJ,KG,MT,SE,TL,WG,WY,WT,WP,VO,DX,TM,CE,AA&PriceFilter=0-2147483647&latitude=28.3936186&longitude=-81.53868419999998'"
+               [href]="'https://www.wyndhamhotels.com/hotels/' 
+						  + replaceSpace(booking_state2.results[0].address_components.filter(x => x.types.includes('locality'))[0].long_name) 
+						  + '-' 
+						  + replaceSpace(booking_state2.results[0].address_components.filter(x => x.types.includes('administrative_area_level_1'))[0].long_name)
+						  + '?brand_id=WY&brand_tier=gn&checkin_date=' + booking_state.startDate.date 
+						  + '&checkout_date=' + booking_state.endDate.date
+						  + '&rooms='+ booking_state.room"
                class="text-decoration-none">Search</a>
           </button>
         </div>
@@ -890,10 +902,10 @@ limitations under the License.
       <script type="application/json">
       {
         "startDate": {
-          "date": "Start Date"
+          "date": ""
         },
         "endDate": {
-          "date": "end date"
+          "date": ""
         },
         "room": 1,
         "Adults": 1,
