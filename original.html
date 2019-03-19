@@ -66,6 +66,9 @@ limitations under the License.
   <script async
           custom-element="amp-animation"
           src="https://cdn.ampproject.org/v0/amp-animation-0.1.js"></script>
+  <script async
+          custom-element="amp-date-display"
+          src="https://cdn.ampproject.org/v0/amp-date-display-0.1.js"></script>
 
   <style amp-boilerplate="">body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style>
   <noscript><style amp-boilerplate="">body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
@@ -955,11 +958,24 @@ limitations under the License.
              style="padding: 10px 20px 5px 20px;">
           <div class="flex justify-center items-center"
                style="margin: 10px 0;">
-            <p class="border-none p0 c4 f12 GothamSSm4r tcap"
-               [text]=" booking_state.startDate.date">start date</p>
+            <amp-date-display datetime="now"
+                              layout="fixed-height"
+                              height="20">
+              <template type="amp-mustache">
+                <p class="border-none p0 c4 f12 GothamSSm4r tcap"
+                   [text]=" booking_state.startDate.date">{{monthTwoDigit}}-{{dayTwoDigit}}-{{year}}</p>
+              </template>
+            </amp-date-display>
             <span class="p0 c4 f12 GothamSSm4r mr1">,</span>
-            <p class="border-none p0 c4 f12 GothamSSm4r tcap"
-               [text]=" booking_state.endDate.date">end Date</p>
+            <amp-date-display datetime="now"
+                              layout="fixed-height"
+                              height="20"
+                              offset-seconds="86400">
+              <template type="amp-mustache">
+                <p class="border-none p0 c4 f12 GothamSSm4r tcap"
+                   [text]=" booking_state.endDate.date">{{monthTwoDigit}}-{{dayTwoDigit}}-{{year}}</p>
+              </template>
+            </amp-date-display>
             <p class="border-none p0 f12 GothamSSm7r c5 ls1"
                on="tap:dates_modal, AMP.setState({mindate: range-date-picker.today})"
                role="button"
